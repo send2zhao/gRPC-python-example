@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+message Address {
+    string name = 1;
+    int32  age = 2;
+    string address = 3;
+}
+
+
+message AddressBook {
+    repeated Address book = 1;
+}
+
+
+message AddressBookRequest {
+  string name = 1;
+}
+
+message Empty {
+}
+
+
+service AddressBookService {
+
+    // simple unary
+    rpc Get(AddressBookRequest) returns (AddressBook) {}
+    
+    // request with empty message
+    rpc GetSimple(Empty) returns (AddressBook) {}
+    
+    // stream response
+    rpc GetStream(Empty) returns (stream AddressBook) {}
+
+    // stream request, single response
+    rpc SendStream(stream AddressBookRequest) returns (AddressBook) {}
+
+    // stream request, stream response
+    rpc ChatAPI(stream AddressBookRequest) returns (stream AddressBook) {}
+}
